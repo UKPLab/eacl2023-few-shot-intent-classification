@@ -54,14 +54,73 @@ python metadataset_creation.py  --task fb_top   --seed 0
 
 ## Usage
 
-Coming soon!
+### Episodic learning
 
 ```bash
-python ...
+seed=1
+python episodic_learning.py \
+        --train_path "path/to/train" \
+        --dev_path "path/to/valid" \
+        --test_path "path/to/test" \
+        --model_name_or_path {"bert-base-uncased" | "princeton-nlp/sup-simcse-bert-base-uncased" } \
+        --output_dir "path/to/output/dir" \
+        --seed $seed \
+        --max_seq_length 64 \
+        --max_iter 10000 \
+        --evaluate_every 100 \
+        --log_every 10 \
+        --learning_rate 0.00002 \
+        --early_stop 5 \
+        --batch_size 64 \
+        --encoder_type {"be" | "ce" } \
+        --do_train --do_test
 ```
 
-### Reproduce
 
+
+### Episodic learning with support and query sets
+
+```bash
+seed=1
+python episodic_learning_wsq.py \
+        --train_path "path/to/train" \
+        --dev_path "path/to/valid" \
+        --test_path "path/to/test" \
+        --model_name_or_path {"bert-base-uncased" | "princeton-nlp/sup-simcse-bert-base-uncased" } \
+        --output_dir "path/to/output/dir" \
+        --seed $seed \
+        --max_seq_length 64 \
+        --max_iter 10000 \
+        --evaluate_every 100 \
+        --log_every 10 \
+        --learning_rate 0.00002 \
+        --early_stop 5 \
+        --batch_size 64 \
+        --encoder_type {"be" | "ce" } \
+        --do_train --do_test
+```
+
+
+### Non-Episodic learning
+
+```bash
+seed=1
+python non-episodic-learning.py \
+        --train_path "path/to/train" \
+        --dev_path "path/to/valid" \
+        --test_path "path/to/test" \
+        --model_name_or_path {"bert-base-uncased" | "princeton-nlp/sup-simcse-bert-base-uncased" } \
+        --output_dir "path/to/output/dir" \
+        --encoder_type {"be" | "ce" } \
+        --batch_size 16 \
+        --learning_rate 0.00002  \
+        --early_stop 5 \
+        --max_iter 10000 \
+        --do_train --do_eval
+```
+
+
+### Reproduce
 
 We notice a slight difference in results when we run our experiments on different GPUs. 
 This happens because the dropout layers in BERT behaves differently on different devices. 
