@@ -29,6 +29,8 @@ Don't hesitate to send us an e-mail or report an issue, if something is broken (
 
 ## Environmental Setup
 
+We use `Python: 3.6.8` and `cuda/11.1`
+
 ```bash
 conda create -n venv
 source activate venv
@@ -38,7 +40,17 @@ pip install -r requirements.txt
 
 ## Datasets
 
-Coming soon!
+We conduct our main experiments on the Fewshot IC/SF dataset which was introduced in this [paper](https://arxiv.org/abs/2004.10793), including ATIS, SNIPS, TOP.
+
+For experiments on ATIS, SNIPS or TOP, we create 100 episodes from the training split of each dataset. 
+For dev and test, we create as many as possible episodes to cover all samples. 
+
+```bash
+python metadataset_creation.py  --task atis   --seed 0
+python metadataset_creation.py  --task snips   --seed 0
+python metadataset_creation.py  --task fb_top   --seed 0
+```
+
 
 ## Usage
 
@@ -47,6 +59,20 @@ Coming soon!
 ```bash
 python ...
 ```
+
+### Reproduce
+
+
+We notice a slight difference in results when we run our experiments on different GPUs. 
+This happens because the dropout layers in BERT behaves differently on different devices. 
+Since the behaviour of BERT's dropout layers is out of our control, we re-run all experiments on an identical machine with the following specifications:
+```
+Linux 3.10.0-1160.11.1.el7.x86_64 #1 SMP Fri Dec 18 16:34:56 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+GPU: Tesla V100-PCIE-32GB
+Mem: 754G
+CPU:  Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz  width: 32,64 bits (Num:72)
+```  
+
 
 ## License
 This project is licensed under the terms of the MIT license.
